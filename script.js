@@ -36,10 +36,12 @@ const llenarSelectConDispositivosDisponibles = () => {
             // Vemos si encontramos algún dispositivo, y en caso de que si, entonces llamamos a la función
             if (dispositivosDeVideo.length > 0) {
                 // Llenar el select
+                let numeroCamara = 0;
                 dispositivosDeVideo.forEach(dispositivo => {
+                    numeroCamara += 1;
                     const option = document.createElement('option');
                     option.value = dispositivo.deviceId;
-                    option.text = dispositivo.label;
+                    option.text = `Camara ${numeroCamara}`;
                     $listaDeDispositivos.appendChild(option);
                 });
             }
@@ -76,9 +78,14 @@ const llenarSelectConDispositivosDisponibles = () => {
 
             // Vemos si encontramos algún dispositivo, y en caso de que si, entonces llamamos a la función
             // y le pasamos el id de dispositivo
-            if (dispositivosDeVideo.length > 0) {
-                // Mostrar stream con el ID del primer dispositivo, luego el usuario puede cambiar
+            if (dispositivosDeVideo.length > 1) {
+                // Mostrar stream con el ID del primer dispositivo, la segunda camara
                 mostrarStream(dispositivosDeVideo[1].deviceId);
+            } else if (dispositivosDeVideo.length == 1) {
+                // Mostrar stream con el ID del primer dispositivo, la primera camara y quitar la opcion cambiar camara
+                mostrarStream(dispositivosDeVideo[0].deviceId);
+                $listaDeDispositivos.style.display = "none";
+                document.querySelector("#cambiarCamara").style.display = "none"
             }
         });
 
@@ -144,9 +151,8 @@ const llenarSelectConDispositivosDisponibles = () => {
                     }).then(response => {
                         return response.json()
                     }).then(res => {
-                        // nombreDeLaFoto trae el nombre de la imagen que le dio PHP
                         console.log("La foto fue enviada correctamente", res);
-                        $estado.innerHTML = `Foto guardada con éxito.`;
+                        $estado.innerHTML = `Foto guardada en la nube con éxito. puedes verla <a target="_blank" href="${res.url}">aqui</a>`;
                     });
 
                     //Reanudar reproducción
