@@ -7,7 +7,7 @@ const _getUserMedia = (...arguments) =>
 const $video = document.querySelector("#video"),
     $canvas = document.querySelector("#canvas"),
     $estado = document.querySelector("#estado"),
-    $boton = document.querySelector("#boton"),
+    $boton = document.querySelector("#botonTomarFotos"),
     $listaDeDispositivos = document.querySelector("#listaDeDispositivos");
 
 const limpiarSelect = () => {
@@ -125,7 +125,7 @@ const llenarSelectConDispositivosDisponibles = () => {
                 //Escuchar el click del botón para tomar la foto
                 //Escuchar el click del botón para tomar la foto
                 $boton.addEventListener("click", async function() {
-
+                    $boton.style.display = "none";
                     //Pausar reproducción
                     $video.pause();
 
@@ -154,9 +154,9 @@ const llenarSelectConDispositivosDisponibles = () => {
                         console.log("La foto fue enviada correctamente", res);
                         $estado.innerHTML = `Foto guardada en la nube con éxito. puedes verla <a target="_blank" href="${res.url}">aqui</a>`;
                     });
-
                     //Reanudar reproducción
                     $video.play();
+                    $boton.style.display =""
                 });
             }, (error) => {
                 console.log("Permiso denegado o error: ", error);
