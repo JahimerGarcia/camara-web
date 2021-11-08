@@ -52,7 +52,7 @@ const llenarSelectConDispositivosDisponibles = () => {
 
 
 
-(function() {
+(function () {
     // Comenzamos viendo si tiene soporte, si no, nos detenemos
     if (!tieneSoporteUserMedia()) {
         alert("Lo siento. Tu navegador no soporta esta característica");
@@ -70,7 +70,7 @@ const llenarSelectConDispositivosDisponibles = () => {
             const dispositivosDeVideo = [];
 
             // Recorrer y filtrar
-            dispositivos.forEach(function(dispositivo) {
+            dispositivos.forEach(function (dispositivo) {
                 const tipo = dispositivo.kind;
                 if (tipo === "videoinput") {
                     dispositivosDeVideo.push(dispositivo);
@@ -97,6 +97,14 @@ const llenarSelectConDispositivosDisponibles = () => {
             video: {
                 // Justo aquí indicamos cuál dispositivo usar
                 deviceId: idDeDispositivo,
+                optional: [
+                    { minWidth: 320 },
+                    { minWidth: 640 },
+                    { minWidth: 1024 },
+                    { minWidth: 1280 },
+                    { minWidth: 1920 },
+                    { minWidth: 2560 },
+                ]
             }
         },
             (streamObtenido) => {
