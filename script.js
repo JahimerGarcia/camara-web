@@ -120,9 +120,10 @@ const llenarSelectConDispositivosDisponibles = () => {
                 stream = streamObtenido;
 
                 // Mandamos el stream de la cámara al elemento de vídeo
-                $video_original = stream;
                 $video.srcObject = stream;
+                $video_original.srcObject = stream;
                 $video.play();
+                $video_original.play();
 
                 //Escuchar el click del botón para tomar la foto
                 //Escuchar el click del botón para tomar la foto
@@ -130,12 +131,13 @@ const llenarSelectConDispositivosDisponibles = () => {
                     $boton.style.display = "none";
                     //Pausar reproducción
                     $video.pause();
+                    $video_original.pause();
 
                     //Obtener contexto del canvas y dibujar sobre él
                     let contexto = $canvas.getContext("2d");
-                    $canvas.width = $video.videoWidth;
-                    $canvas.height = $video.videoHeight;
-                    contexto.drawImage($video, 0, 0, $canvas.width, $canvas.height);
+                    $canvas.width = $video_original.videoWidth;
+                    $canvas.height = $video_original.videoHeight;
+                    contexto.drawImage($video_original, 0, 0, $canvas.width, $canvas.height);
 
                     let foto = $canvas.toDataURL(); //Esta es la foto, en base 64
                     $estado.innerHTML = "Enviando foto. Por favor, espera...";
@@ -158,6 +160,7 @@ const llenarSelectConDispositivosDisponibles = () => {
                     });
                     //Reanudar reproducción
                     $video.play();
+                    $video_original.play();
                     $boton.style.display = ""
                 });
             }, (error) => {
