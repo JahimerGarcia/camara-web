@@ -132,6 +132,11 @@ const llenarSelectConDispositivosDisponibles = () => {
                     //Pausar reproducción
                     $video.pause();
                     $video_original.pause();
+                    console.log($video.videoWidth)
+                    console.log($video.videoHeight)
+                    console.log($video_original.videoWidth)
+                    console.log($video_original.videoHeight)
+
 
                     //Obtener contexto del canvas y dibujar sobre él
                     let contexto = $canvas.getContext("2d");
