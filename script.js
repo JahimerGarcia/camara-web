@@ -5,6 +5,7 @@ const _getUserMedia = (...arguments) =>
 
 // Declaramos elementos del DOM
 const $video = document.querySelector("#video"),
+    $video_original = document.querySelector("#video_tamaño_original"),
     $canvas = document.querySelector("#canvas"),
     $estado = document.querySelector("#estado"),
     $boton = document.querySelector("#botonTomarFotos"),
@@ -93,11 +94,11 @@ const llenarSelectConDispositivosDisponibles = () => {
 
     const mostrarStream = idDeDispositivo => {
         _getUserMedia({
-                video: {
-                    // Justo aquí indicamos cuál dispositivo usar
-                    deviceId: idDeDispositivo,
-                }
-            },
+            video: {
+                // Justo aquí indicamos cuál dispositivo usar
+                deviceId: idDeDispositivo,
+            }
+        },
             (streamObtenido) => {
                 // Aquí ya tenemos permisos, ahora sí llenamos el select,
                 // pues si no, no nos daría el nombre de los dispositivos
@@ -107,7 +108,7 @@ const llenarSelectConDispositivosDisponibles = () => {
                 $listaDeDispositivos.onchange = () => {
                     // Detener el stream
                     if (stream) {
-                        stream.getTracks().forEach(function(track) {
+                        stream.getTracks().forEach(function (track) {
                             track.stop();
                         });
                     }
@@ -119,12 +120,13 @@ const llenarSelectConDispositivosDisponibles = () => {
                 stream = streamObtenido;
 
                 // Mandamos el stream de la cámara al elemento de vídeo
+                $video_original = stream;
                 $video.srcObject = stream;
                 $video.play();
 
                 //Escuchar el click del botón para tomar la foto
                 //Escuchar el click del botón para tomar la foto
-                $boton.addEventListener("click", async function() {
+                $boton.addEventListener("click", async function () {
                     $boton.style.display = "none";
                     //Pausar reproducción
                     $video.pause();
@@ -137,14 +139,14 @@ const llenarSelectConDispositivosDisponibles = () => {
 
                     let foto = $canvas.toDataURL(); //Esta es la foto, en base 64
                     $estado.innerHTML = "Enviando foto. Por favor, espera...";
-                    
+
                     // enviar a cloudinary
                     const urlCloudinary = "https://api.cloudinary.com/v1_1/jahimercloud/auto/upload";
                     const formData = new FormData();
-                    
+
                     formData.append("file", foto);
                     formData.append("upload_preset", "ee6ppqwp");
-    
+
                     await fetch(urlCloudinary, {
                         method: "POST",
                         body: formData
@@ -156,7 +158,7 @@ const llenarSelectConDispositivosDisponibles = () => {
                     });
                     //Reanudar reproducción
                     $video.play();
-                    $boton.style.display =""
+                    $boton.style.display = ""
                 });
             }, (error) => {
                 console.log("Permiso denegado o error: ", error);

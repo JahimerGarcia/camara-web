@@ -1,4 +1,4 @@
-video {
+#video {
   width: 50%;
   height: auto;
   display: block;
@@ -6,7 +6,7 @@ video {
 }
 
 @media only screen and (max-width: 700px) {
-  video {
+  #video {
     
     max-width: 100%;
     width: 100%;
